@@ -1,12 +1,14 @@
 ---
-title: Variables
+title: 变量/Variables
 ---
 
+>用一个单独区域存储一个常用值
 > Control commonly used values in a single location.
 
 ### Overview
 
 It's not uncommon to see the same value repeated dozens _if not hundreds of times_ across your stylesheets:
+在你的式样表中没有几百也有几十次写了相同的属性值：
 
 ```css
 a,
@@ -20,15 +22,15 @@ a,
 ```
 
 Variables make your code easier to maintain by giving you a way to control those values from a single location:
+变量提供了一种在单独区域中控制这些属性值的方式，使你的代码更容易维护：
 
 ```less
-// Variables
+// 变量：
 @link-color:        #428bca; // sea blue
 @link-color-hover:  darken(@link-color, 10%);
 
-// Usage
-a,
-.link {
+// 使用：
+a, .link {
   color: @link-color;
 }
 a:hover {
@@ -40,27 +42,28 @@ a:hover {
 }
 ```
 
-### Variable Interpolation
+### Variable Interpolation / 变量修改
 
+上面的例子主要使用变量去控制CSS属性值，但变量同样可以用在别的地方，比如选择器名、属性名、URL、和`@import`语句。
 The examples above focused on using variables to control _values in CSS rules_, but they can also be used in other places as well, such as selector names, property names, URLs and `@import` statements.
 
 
-#### Selectors
+#### Selectors / 值作为选择器
 
 _v1.4.0_
 
 ```less
-// Variables
+// 变量
 @my-selector: banner;
 
-// Usage
+// 使用
 .@{my-selector} {
   font-weight: bold;
   line-height: 40px;
   margin: 0 auto;
 }
 ```
-Compiles to:
+编译为:
 
 ```css
 .banner {
@@ -73,25 +76,32 @@ Compiles to:
 #### URLs
 
 ```less
-// Variables
+// 变量
 @images: "../img";
 
-// Usage
+// 使用
 body {
-  color: #444;
   background: url("@{images}/white-sand.png");
 }
 ```
+编译为:
 
-#### Import Statements
+```css
+body {
+  background: url("../img/white-sand.png");
+}
+```
+
+#### Import Statements / Import 语句
 
 _v1.4.0_
 
-Syntax: `@import "@{themes}/tidal-wave.less";`
+语法: `@import "@{themes}/tidal-wave.less";`
 
 Note that before v2.0.0, only variables which have been declared in the root or current scope were considered and that only the current file and calling files were considered when looking for a variable.
+注意，在v2.0.0之前，less只考虑在全局域或当前域中声明的变量，在查找变量时只考虑当前文件和调用文件。
 
-Example:
+例子:
 
 ```less
 // Variables
@@ -101,7 +111,7 @@ Example:
 @import "@{themes}/tidal-wave.less";
 ```
 
-#### Properties
+#### Properties / 值作为属性名
 
 _v1.6.0_
 
@@ -114,7 +124,7 @@ _v1.6.0_
 }
 ```
 
-Compiles to:
+编译为:
 
 ```css
 .widget {
@@ -123,9 +133,13 @@ Compiles to:
 }
 ```
 
-### Variable Variables
+### Variable Variables / 可变变量
 
 In Less, you can define a variable's name using another variable.
+在Less中，你可以定义一个使用其他变量值的变量
+这里应该是参考了编译语言的对象引用，像是JAVA中一个变量存储了对象引用，使用的时候就需要加点符号表明‘不是使用这个变量本身，而是使用变量引用的对象’；
+这里多加一个@表示使用引用；
+这个用在简单的变量上应该不合适，应该还有别的用法吧？
 
 ```less
 @primary:  green;
@@ -140,7 +154,7 @@ In Less, you can define a variable's name using another variable.
 }
 ```
 
-Which compiles to:
+编译为:
 
 ```less
 .section .element {
@@ -153,6 +167,7 @@ Which compiles to:
 ### Lazy Evaluation
 
 > Variables do not have to be declared before being used.
+>变量
 
 Valid Less snippet:
 
